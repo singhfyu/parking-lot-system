@@ -4,11 +4,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class DayNightPricingStrategy implements PricingStrategy{
-    public long calculateFee(Ticket ticket){
+    public long calculateFee(Ticket ticket, LocalDateTime exitTime){
         ParkingSpot parkingSpot = ticket.getParkingSpot();
         LocalDateTime entryTime= ticket.getEntryTime();
-        //LocalDateTime exitTime= LocalDateTime.now();
-        LocalDateTime exitTime = entryTime.plusHours(60);
+        //LocalDateTime exitTime = entryTime.plusHours(60); //for testing
 
         System.out.println("Entry time = "+ entryTime);
         System.out.println("Exit time = "+ exitTime);

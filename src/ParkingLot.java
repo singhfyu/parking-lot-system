@@ -25,8 +25,8 @@ public class ParkingLot {
             parkingSpots.add(new ParkingSpot(spotId++,SpotType.OVERSIZE));
         }
     }
-    public long calculateFee(Ticket ticket){
-        return pricingStrategy.calculateFee(ticket);
+    public long calculateFee(Ticket ticket, LocalDateTime exitTime){
+        return pricingStrategy.calculateFee(ticket, exitTime);
     }
     public Ticket parkVehicle(Vehicle vehicle) {
         ParkingSpot parkingSpot = findAndAllocateSpot(vehicle);
@@ -41,14 +41,17 @@ public class ParkingLot {
         return ticket;
     }
 
-    public long unparkVehicle(Vehicle vehicle){
+    public long unparkVehicle(Vehicle vehicle, LocalDateTime exitTime){
         Ticket ticket = tickets.get(vehicle.getVehicleNumber());
+
         if(ticket==null)
-                return 0;
+            throw new IllegalArgumentException("Vehicle is not parked");
+
         ParkingSpot spot = ticket.getParkingSpot();
-        long fee = calculateFee(ticket);
+        long fee = calculateFee(ticket, exitTime);
         spot.disallocate();
         tickets.remove(vehicle.getVehicleNumber());
+
         return fee;
     }
     public ParkingSpot findAndAllocateSpot(Vehicle vehicle){

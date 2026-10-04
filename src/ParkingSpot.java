@@ -25,6 +25,9 @@ public class ParkingSpot {
     }
 
     public void allocate(Vehicle vehicle){
+        if(!isAvailable()){
+            throw new IllegalStateException("Parking spot is already occupied");
+        }
         this.vehicle=vehicle;
     }
 
