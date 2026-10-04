@@ -1,6 +1,6 @@
 public class Vehicle {
-    private VehicleType vehicleType;
-    private String vehicleNumber;
+    private final VehicleType vehicleType;
+    private final String vehicleNumber;
 
     public Vehicle(VehicleType vehicleType, String vehicleNumber) {
         this.vehicleType = vehicleType;

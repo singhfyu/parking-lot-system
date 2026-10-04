@@ -28,11 +28,13 @@ public class ParkingLot {
     public long calculateFee(Ticket ticket, LocalDateTime exitTime){
         return pricingStrategy.calculateFee(ticket, exitTime);
     }
-    public Ticket parkVehicle(Vehicle vehicle) {
+    public Ticket generateTicketAndParkVehicle(Vehicle vehicle) {
+        if(tickets.containsKey(vehicle.getVehicleNumber())){
+            throw new IllegalStateException("Vehicle already parked !");
+        }
         ParkingSpot parkingSpot = findAndAllocateSpot(vehicle);
         if(parkingSpot==null){
-            System.out.println("Ticket was not generated as parking spot not available");
-            return null;
+            throw new IllegalStateException(" Parking spots are full !");
         }
         LocalDateTime entryTime = LocalDateTime.now() ;
         //generate ticket
@@ -45,11 +47,13 @@ public class ParkingLot {
         Ticket ticket = tickets.get(vehicle.getVehicleNumber());
 
         if(ticket==null)
-            throw new IllegalArgumentException("Vehicle is not parked");
-
+            throw new IllegalArgumentException("Vehicle is not parked.");
+        if(exitTime.isBefore(ticket.getEntryTime())){
+            throw new IllegalArgumentException("Exit time can't be after entry time.");
+        }
         ParkingSpot spot = ticket.getParkingSpot();
         long fee = calculateFee(ticket, exitTime);
-        spot.disallocate();
+        spot.release();
         tickets.remove(vehicle.getVehicleNumber());
 
         return fee;

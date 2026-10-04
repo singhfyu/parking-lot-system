@@ -1,7 +1,7 @@
 public class ParkingSpot {
-    private SpotType spotType;
+    private final SpotType spotType;
     private Vehicle vehicle;
-    private int spotId;
+    private final int spotId;
 
     public ParkingSpot(int spotId, SpotType spotType){
         this.spotId=spotId;
@@ -31,7 +31,7 @@ public class ParkingSpot {
         this.vehicle=vehicle;
     }
 
-    public void disallocate(){
+    public void release(){
         this.vehicle = null;
     }
 }

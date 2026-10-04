@@ -33,8 +33,7 @@ public class DayNightPricingStrategy implements PricingStrategy{
             dayChargePerHour =180;
             nightChargePerHour =120;
         }else{
-            dayChargePerHour =0;
-            nightChargePerHour =0;
+            throw new IllegalStateException("Unknown spot type");
         }
         dayCharge=dayChargePerHour * (long)(Math.ceil(dayDuration.toMinutes()/60.0)) ;
         nightCharge=nightChargePerHour * (long)(Math.ceil(nightDuration.toMinutes()/60.0)) ;
